@@ -21,6 +21,7 @@
     </build>
     <properties>
         <v.poi>3.17</v.poi>
+        <jackson-version>2.9.3</jackson-version>
     </properties>
 
     <dependencies>
@@ -53,5 +54,11 @@
             <version>1.3</version>
         </dependency>
         <!-- excel end -->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
     </dependencies>
 </project>
