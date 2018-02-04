@@ -1,16 +1,14 @@
 package excel;
 
-/**
- * @auther 儒尊
- * @date 2018/1/24
- **/
 
-import java.io.InputStream;
-import java.util.Iterator;
-
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
-import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -20,7 +18,22 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-public class ExampleEventUserModel {
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * @auther 儒尊
+ * @date 2018-02-05 01:07:34
+ **/
+public class MyEventUserModel {
+	
+	private static Pattern COLUMN_A = Pattern.compile("A([\\d]+)");
+	
+	private List<ParsedRow> sheetData = Lists.newArrayList();
+	private ParsedRow       rowData   = new ParsedRow();
 	
 	public void processOneSheet(String filename) throws Exception {
 		OPCPackage         pkg = OPCPackage.open(filename);
@@ -32,7 +45,7 @@ public class ExampleEventUserModel {
 		// To look up the Sheet Name / Sheet Order / rID,
 		//  you need to process the core Workbook stream.
 		// Normally it's of the form rId# or rSheet#
-		InputStream sheet2      = r.getSheet("rId2");
+		InputStream sheet2      = r.getSheet("rId1");
 		InputSource sheetSource = new InputSource(sheet2);
 		parser.parse(sheetSource);
 		sheet2.close();
@@ -69,23 +82,39 @@ public class ExampleEventUserModel {
 	/**
 	 * See org.xml.sax.helpers.DefaultHandler javadocs
 	 */
-	private static class SheetHandler extends DefaultHandler {
+	private class SheetHandler extends DefaultHandler {
 		
 		private SharedStringsTable sst;
 		private String             lastContents;
 		private boolean            nextIsString;
+		private Short              index;
 		
 		private SheetHandler(SharedStringsTable sst) {
 			this.sst = sst;
 		}
 		
 		@Override
-		public void startElement(String uri, String localName, String name,
-								 Attributes attributes) throws SAXException {
+		public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 			// c => cell
 			if (name.equals("c")) {
 				// Print the cell reference
-				System.out.print(attributes.getValue("r") + " - ");
+				String        coordinate    = attributes.getValue("r");
+				CellReference cellReference = new CellReference(coordinate);
+				index = cellReference.getCol();
+				System.out.print(coordinate + " - ");
+				Matcher matcher = COLUMN_A.matcher(coordinate);
+				
+				// 第一行单独解析行号
+				if (matcher.matches() && rowData.getCellList().isEmpty()) {
+					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
+				}
+				
+				if (matcher.matches() && !rowData.getCellList().isEmpty()) {
+					sheetData.add(rowData);
+					rowData = new ParsedRow();
+					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
+				}
+				
 				// Figure out if the value is an index in the SST
 				String cellType = attributes.getValue("t");
 				if (cellType != null && cellType.equals("s")) {
@@ -99,8 +128,7 @@ public class ExampleEventUserModel {
 		}
 		
 		@Override
-		public void endElement(String uri, String localName, String name)
-				throws SAXException {
+		public void endElement(String uri, String localName, String name) throws SAXException {
 			// Process the last contents as required.
 			// Do now, as characters() may be called more than once
 			if (nextIsString) {
@@ -113,20 +141,45 @@ public class ExampleEventUserModel {
 			// Output after we've seen the string contents
 			if (name.equals("v")) {
 				System.out.println(lastContents);
+				rowData.getCellList().add(new ParsedCell(index, lastContents));
 			}
 		}
 		
 		@Override
-		public void characters(char[] ch, int start, int length)
-				throws SAXException {
+		public void endDocument() throws SAXException {
+			if (!rowData.getCellList().isEmpty()) {
+				sheetData.add(rowData);
+			}
+		}
+		
+		@Override
+		public void characters(char[] ch, int start, int length) throws SAXException {
 			lastContents += new String(ch, start, length);
 		}
 	}
 	
+	@Data
+	private class ParsedRow {
+		
+		private Integer rowIndex;
+		private List<ParsedCell> cellList = Lists.newArrayList();
+	}
+	
+	@Data
+	@AllArgsConstructor
+	private class ParsedCell {
+		
+		private Short  columnIndex;
+		private String cellData;
+	}
+	
 	public static void main(String[] args) throws Exception {
-		String                fileName = "/Users/lvsheng/Downloads/全渠道商品发布模板.xlsx";
-		ExampleEventUserModel example  = new ExampleEventUserModel();
-		//example.processOneSheet(fileName);
-		example.processAllSheets(fileName);
+		String           fileName = "/Users/lvsheng/Downloads/全渠道商品发布模板.xlsx";
+		MyEventUserModel example  = new MyEventUserModel();
+		example.processOneSheet(fileName);
+		//example.processAllSheets(fileName);
+		example.sheetData
+				.stream()
+				.forEach(parsedRow -> System.out.println(JSON.toJSONString(parsedRow)));
 	}
 }
