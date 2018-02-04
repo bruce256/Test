@@ -3,6 +3,7 @@ package excel;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -21,10 +22,13 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * sax解析会越过空的cell，因为空的cell根本不会在sheet.xml出现。处理cell时列号要自己存储
+ *
  * @auther 儒尊
  * @date 2018-02-05 01:07:34
  **/
@@ -105,11 +109,11 @@ public class MyEventUserModel {
 				Matcher matcher = COLUMN_A.matcher(coordinate);
 				
 				// 第一行单独解析行号
-				if (matcher.matches() && rowData.getCellList().isEmpty()) {
+				if (matcher.matches() && rowData.getCellMap().isEmpty()) {
 					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
 				}
 				
-				if (matcher.matches() && !rowData.getCellList().isEmpty()) {
+				if (matcher.matches() && !rowData.getCellMap().isEmpty()) {
 					sheetData.add(rowData);
 					rowData = new ParsedRow();
 					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
@@ -141,13 +145,13 @@ public class MyEventUserModel {
 			// Output after we've seen the string contents
 			if (name.equals("v")) {
 				System.out.println(lastContents);
-				rowData.getCellList().add(new ParsedCell(index, lastContents));
+				rowData.getCellMap().put(index, lastContents);
 			}
 		}
 		
 		@Override
 		public void endDocument() throws SAXException {
-			if (!rowData.getCellList().isEmpty()) {
+			if (!rowData.getCellMap().isEmpty()) {
 				sheetData.add(rowData);
 			}
 		}
@@ -162,15 +166,7 @@ public class MyEventUserModel {
 	private class ParsedRow {
 		
 		private Integer rowIndex;
-		private List<ParsedCell> cellList = Lists.newArrayList();
-	}
-	
-	@Data
-	@AllArgsConstructor
-	private class ParsedCell {
-		
-		private Short  columnIndex;
-		private String cellData;
+		private Map<Short, String> cellMap = Maps.newLinkedHashMap();
 	}
 	
 	public static void main(String[] args) throws Exception {
