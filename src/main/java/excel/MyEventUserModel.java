@@ -62,10 +62,12 @@ public class MyEventUserModel {
 		
 		XMLReader parser = fetchSheetParser(sst);
 		
-		Iterator<InputStream> sheets = r.getSheetsData();
-		while (sheets.hasNext()) {
+		Iterator<InputStream>    sheets   = r.getSheetsData();
+		XSSFReader.SheetIterator iterator = (XSSFReader.SheetIterator) sheets;
+		while (iterator.hasNext()) {
 			System.out.println("Processing new sheet:\n");
-			InputStream sheet       = sheets.next();
+			InputStream sheet = iterator.next();
+			System.out.println(iterator.getSheetName());
 			InputSource sheetSource = new InputSource(sheet);
 			parser.parse(sheetSource);
 			sheet.close();
@@ -145,7 +147,7 @@ public class MyEventUserModel {
 			// Output after we've seen the string contents
 			if (name.equals("v")) {
 				System.out.println(lastContents);
-				rowData.getCellMap().put(index, lastContents);
+				rowData.getCellMap().put(index.intValue(), lastContents);
 			}
 		}
 		
@@ -162,18 +164,12 @@ public class MyEventUserModel {
 		}
 	}
 	
-	@Data
-	private class ParsedRow {
-		
-		private Integer rowIndex;
-		private Map<Short, String> cellMap = Maps.newLinkedHashMap();
-	}
-	
 	public static void main(String[] args) throws Exception {
-		String           fileName = "/Users/lvsheng/Downloads/全渠道商品发布模板.xlsx";
+		String           fileName = "/Users/lvsheng/Downloads/12/全渠道商品发布模板 - 副本 (12).xlsx";
 		MyEventUserModel example  = new MyEventUserModel();
 		example.processOneSheet(fileName);
 		//example.processAllSheets(fileName);
+		Thread.sleep(100000 * 1000);
 		example.sheetData
 				.stream()
 				.forEach(parsedRow -> System.out.println(JSON.toJSONString(parsedRow)));

@@ -42,7 +42,7 @@ public class ExcelTest {
 	
 	@Test
 	public void readExcel() {
-		try (XSSFWorkbook wb = new XSSFWorkbook("/Users/lvsheng/Downloads/paytm update 4 AK.xlsx")) {
+		try (XSSFWorkbook wb = new XSSFWorkbook("/Users/lvsheng/Downloads/12/全渠道商品发布模板 - 副本 (12).xlsx")) {
 			XSSFSheet     sheet       = wb.getSheetAt(1);
 			Iterator<Row> rowIterator = sheet.rowIterator();
 			List<Row>     list        = Lists.newArrayList(rowIterator);
