@@ -20,23 +20,21 @@ public class XssfWorkBookTest {
 	public static final int COL_NUM = 10;
 	
 	public static void main(String[] args) {
-		Stopwatch    stopwatch    = Stopwatch.createStarted();
-		XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
-		XSSFSheet    xssfSheet    = xssfWorkbook.createSheet("XSSFWorkbook");
-		for (int rowIndex = 0; rowIndex < ROW_NUM; rowIndex++) {
-			XSSFRow row = xssfSheet.createRow(rowIndex);
-			for (int colIdx = 0; colIdx < COL_NUM; colIdx++) {
-				XSSFCell cell = row.createCell(colIdx);
-				cell.setCellValue(Joiner.on("_").join("XSSFWorkbook", rowIndex, colIdx));
+		Stopwatch stopwatch = Stopwatch.createStarted();
+		try (XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
+			 FileOutputStream fileOutputStream = new FileOutputStream("/temp/XssfWorkBookTest.xlsx")) {
+			XSSFSheet xssfSheet = xssfWorkbook.createSheet("XSSFWorkbook");
+			for (int rowIndex = 0; rowIndex < ROW_NUM; rowIndex++) {
+				XSSFRow row = xssfSheet.createRow(rowIndex);
+				for (int colIdx = 0; colIdx < COL_NUM; colIdx++) {
+					XSSFCell cell = row.createCell(colIdx);
+					cell.setCellValue(Joiner.on("_").join("XSSFWorkbook", rowIndex, colIdx));
+				}
 			}
-		}
-		
-		try {
-			//stopwatch.stop();
+			
 			System.out.println("--------finish, " + stopwatch.toString());
 			//Thread.sleep(100000 * 1000);
-			xssfWorkbook.write(new FileOutputStream("/temp/XssfWorkBookTest.xlsx"));
-			xssfWorkbook.close();
+			xssfWorkbook.write(fileOutputStream);
 			System.out.println("--------finish, " + stopwatch.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
