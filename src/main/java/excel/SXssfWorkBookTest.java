@@ -22,8 +22,9 @@ public class SXssfWorkBookTest {
 	public static void main(String[] args) {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		try (SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(100);
-			 FileOutputStream fileOutputStream = new FileOutputStream("/temp/SXssfWorkBookTest.xlsx");) {
+			 FileOutputStream fileOutputStream = new FileOutputStream("/study/excel性能测试/SXssfWorkBookTest.xlsx");) {
 			
+			sxssfWorkbook.setCompressTempFiles(true);
 			SXSSFSheet sxssfSheet = sxssfWorkbook.createSheet("SXSSFWorkbook");
 			for (int rowIndex = 0; rowIndex < ROW_NUM; rowIndex++) {
 				SXSSFRow row = sxssfSheet.createRow(rowIndex);

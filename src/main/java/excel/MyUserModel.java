@@ -18,7 +18,7 @@ public class MyUserModel {
 	private List<ParsedRow> sheetData = Lists.newArrayList();
 	
 	public void readExcel() {
-		try (XSSFWorkbook wb = new XSSFWorkbook("/Users/lvsheng/Downloads/12/全渠道商品发布模板 - 副本 (12).xlsx")) {
+		try (XSSFWorkbook wb = new XSSFWorkbook("/study/excel性能测试/全渠道商品发布模板 - 副本 (12).xlsx")) {
 			XSSFSheet     sheet       = wb.getSheetAt(0);
 			Iterator<Row> rowIterator = sheet.rowIterator();
 			List<Row>     list        = Lists.newArrayList(rowIterator);
