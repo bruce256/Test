@@ -1,5 +1,6 @@
 package excel;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -33,12 +34,6 @@ public class MyUserModel {
 				}
 				sheetData.add(parsedRow);
 			}
-			Thread.sleep(100000 * 1000);
-			list.stream().forEach(row -> {
-				short firstCellNum = row.getFirstCellNum();
-				Cell  cell         = row.getCell(firstCellNum);
-				System.out.println(cell.toString());
-			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,6 +41,8 @@ public class MyUserModel {
 	
 	public static void main(String[] args) {
 		MyUserModel myUserModel = new MyUserModel();
+		Stopwatch   stopwatch   = Stopwatch.createStarted();
 		myUserModel.readExcel();
+		System.out.println("-----------------finish, " + stopwatch.toString());
 	}
 }

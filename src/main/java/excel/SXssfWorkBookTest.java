@@ -7,8 +7,10 @@ import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
+import java.io.Console;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * @auther 儒尊
@@ -19,7 +21,8 @@ public class SXssfWorkBookTest {
 	public static final int ROW_NUM = 50000;
 	public static final int COL_NUM = 10;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, IOException {
+		System.in.read();
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		try (SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(100);
 			 FileOutputStream fileOutputStream = new FileOutputStream("/study/excel性能测试/SXssfWorkBookTest.xlsx");) {
@@ -35,7 +38,7 @@ public class SXssfWorkBookTest {
 			}
 			
 			System.out.println("--------finish, " + stopwatch.toString());
-//			Thread.sleep(100000 * 1000);
+			Thread.sleep(100000 * 1000);
 			
 			sxssfWorkbook.write(fileOutputStream);
 			//stopwatch.stop();

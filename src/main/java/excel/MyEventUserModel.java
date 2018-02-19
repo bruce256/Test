@@ -2,6 +2,7 @@ package excel;
 
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -67,13 +68,13 @@ public class MyEventUserModel {
 		Iterator<InputStream>    sheets   = r.getSheetsData();
 		XSSFReader.SheetIterator iterator = (XSSFReader.SheetIterator) sheets;
 		while (iterator.hasNext()) {
-			System.out.println("Processing new sheet:\n");
+			//System.out.println("Processing new sheet:\n");
 			InputStream sheet = iterator.next();
-			System.out.println(iterator.getSheetName());
+			//System.out.println(iterator.getSheetName());
 			InputSource sheetSource = new InputSource(sheet);
 			parser.parse(sheetSource);
 			sheet.close();
-			System.out.println("");
+			//System.out.println("");
 		}
 	}
 	
@@ -109,7 +110,7 @@ public class MyEventUserModel {
 				String        coordinate    = attributes.getValue("r");
 				CellReference cellReference = new CellReference(coordinate);
 				index = cellReference.getCol();
-				System.out.print(coordinate + " - ");
+				//System.out.print(coordinate + " - ");
 				Matcher matcher = COLUMN_A.matcher(coordinate);
 				
 				// 第一行单独解析行号
@@ -147,12 +148,12 @@ public class MyEventUserModel {
 				nextIsString = false;
 			}
 			
-			String value = this.getDataValue(lastContents.trim(), "");
+			//String value = this.getDataValue(lastContents.trim(), "");
 			
 			// v => contents of a cell
 			// Output after we've seen the string contents
 			if (name.equals("v")) {
-				System.out.println(lastContents);
+				//System.out.println(lastContents);
 				rowData.getCellMap().put(index.intValue(), lastContents);
 			}
 		}
@@ -298,14 +299,16 @@ public class MyEventUserModel {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		//String           fileName = "/study/excel性能测试/全渠道商品发布模板 - 副本 (12).xlsx";
-		String           fileName = "/Users/lvsheng/Downloads/全渠道商品发布模板.xlsx";
-		MyEventUserModel example  = new MyEventUserModel();
+		//String           fileName  = "/Users/lvsheng/Downloads/全渠道商品发布模板.xlsx";
+		String           fileName  = "/study/excel性能测试/全渠道商品发布模板 - 副本 (12).xlsx";
+		MyEventUserModel example   = new MyEventUserModel();
+		Stopwatch        stopwatch = Stopwatch.createStarted();
 		example.processOneSheet(fileName);
+		System.out.println("-----------------finish, " + stopwatch.toString());
 		//example.processAllSheets(fileName);
-		//Thread.sleep(100000 * 1000);
+		/*Thread.sleep(100000 * 1000);
 		example.sheetData
 				.stream()
-				.forEach(parsedRow -> System.out.println(JSON.toJSONString(parsedRow)));
+				.forEach(parsedRow -> System.out.println(JSON.toJSONString(parsedRow)));*/
 	}
 }

@@ -19,7 +19,8 @@ public class XssfWorkBookTest {
 	public static final int ROW_NUM = 50000;
 	public static final int COL_NUM = 10;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
+		Thread.sleep(100 * 1000);
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		try (XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
 			 FileOutputStream fileOutputStream = new FileOutputStream("/study/excel性能测试/XssfWorkBookTest.xlsx")) {
@@ -33,7 +34,7 @@ public class XssfWorkBookTest {
 			}
 			
 			System.out.println("--------finish, " + stopwatch.toString());
-			//Thread.sleep(100000 * 1000);
+			Thread.sleep(100000 * 1000);
 			xssfWorkbook.write(fileOutputStream);
 			System.out.println("--------finish, " + stopwatch.toString());
 		} catch (IOException e) {
