@@ -12,15 +12,16 @@ import java.lang.reflect.Method;
 /**
  * @auther 儒尊
  * @date 2018/2/17
+ * <p>
+ * -XX:MetaspaceSize=8m -XX:MaxMetaspaceSize=50m
  **/
 public class MetaSpaceOomMock {
 	
 	public static void main(String[] args) {
-		System.out.println("Let us do it now.....");
 		ClassLoadingMXBean loadingBean = ManagementFactory.getClassLoadingMXBean();
 		while (true) {
 			Enhancer enhancer = new Enhancer();
-			enhancer.setSuperclass(StackErrorMock.class);
+			enhancer.setSuperclass(MetaSpaceOomMock.class);
 			enhancer.setCallbackTypes(new Class[]{Dispatcher.class, MethodInterceptor.class});
 			enhancer.setCallbackFilter(new CallbackFilter() {
 				@Override
