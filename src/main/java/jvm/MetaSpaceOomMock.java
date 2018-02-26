@@ -1,29 +1,45 @@
 package jvm;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
+import net.sf.cglib.proxy.CallbackFilter;
+import net.sf.cglib.proxy.Dispatcher;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.reflect.Method;
 
 /**
  * @auther 儒尊
  * @date 2018/2/17
  **/
 public class MetaSpaceOomMock {
+	
 	public static void main(String[] args) {
-		URL               url             = null;
-		List<ClassLoader> classLoaderList = new ArrayList<ClassLoader>();
-		try {
-			url = new File("/temp").toURI().toURL();
-			URL[] urls = {url};
-			while (true){
-				ClassLoader loader = new URLClassLoader(urls);
-				classLoaderList.add(loader);
-				loader.loadClass("jvm.MetaSpaceOomMock");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		System.out.println("Let us do it now.....");
+		ClassLoadingMXBean loadingBean = ManagementFactory.getClassLoadingMXBean();
+		while (true) {
+			Enhancer enhancer = new Enhancer();
+			enhancer.setSuperclass(StackErrorMock.class);
+			enhancer.setCallbackTypes(new Class[]{Dispatcher.class, MethodInterceptor.class});
+			enhancer.setCallbackFilter(new CallbackFilter() {
+				@Override
+				public int accept(Method method) {
+					return 1;
+				}
+				
+				@Override
+				public boolean equals(Object obj) {
+					return super.equals(obj);
+				}
+			});
+			
+			Class clazz = enhancer.createClass();
+			System.out.println(clazz.getName());
+			//显示数量信息（共加载过的类型数目，当前还有效的类型数目，已经被卸载的类型数目）
+			System.out.println("total: " + loadingBean.getTotalLoadedClassCount());
+			System.out.println("active: " + loadingBean.getLoadedClassCount());
+			System.out.println("unloaded: " + loadingBean.getUnloadedClassCount());
 		}
 	}
 }
