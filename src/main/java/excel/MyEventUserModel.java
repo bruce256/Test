@@ -36,18 +36,18 @@ import java.util.regex.Pattern;
  **/
 public class MyEventUserModel {
 	
-	private static Pattern COLUMN_A = Pattern.compile("A([\\d]+)");
-	
-	private List<ParsedRow> sheetData = Lists.newArrayList();
-	private ParsedRow       rowData   = new ParsedRow();
+	private static Pattern              COLUMN_A       = Pattern.compile("A([\\d]+)");
+	private        ParsedWorkBook       parsedWorkBook = new ParsedWorkBook();
+	private        List<ParsedExcelRow> sheetData      = Lists.newArrayList();
+	private        ParsedExcelRow       rowData        = new ParsedExcelRow();
 	private StylesTable stylesTable;
 	
 	public void processOneSheet(String filename) throws Exception {
-		OPCPackage         pkg = OPCPackage.open(filename);
-		XSSFReader         r   = new XSSFReader(pkg);
-		SharedStringsTable sst = r.getSharedStringsTable();
+		OPCPackage         pkg    = OPCPackage.open(filename);
+		XSSFReader         r      = new XSSFReader(pkg);
+		SharedStringsTable sst    = r.getSharedStringsTable();
+		XMLReader          parser = fetchSheetParser(sst);
 		stylesTable = r.getStylesTable();
-		XMLReader parser = fetchSheetParser(sst);
 		
 		// To look up the Sheet Name / Sheet Order / rID,
 		//  you need to process the core Workbook stream.
@@ -59,17 +59,22 @@ public class MyEventUserModel {
 	}
 	
 	public void processAllSheets(String filename) throws Exception {
-		OPCPackage         pkg = OPCPackage.open(filename);
-		XSSFReader         r   = new XSSFReader(pkg);
-		SharedStringsTable sst = r.getSharedStringsTable();
-		
-		XMLReader parser = fetchSheetParser(sst);
+		OPCPackage         pkg    = OPCPackage.open(filename);
+		XSSFReader         r      = new XSSFReader(pkg);
+		SharedStringsTable sst    = r.getSharedStringsTable();
+		XMLReader          parser = fetchSheetParser(sst);
+		stylesTable = r.getStylesTable();
 		
 		Iterator<InputStream>    sheets   = r.getSheetsData();
 		XSSFReader.SheetIterator iterator = (XSSFReader.SheetIterator) sheets;
 		while (iterator.hasNext()) {
 			System.out.println("Processing new sheet:\n");
 			InputStream sheet = iterator.next();
+			sheetData = Lists.newArrayList();
+			ParsedWorkSheet parsedWorkSheet = new ParsedWorkSheet();
+			parsedWorkSheet.setRowList(sheetData);
+			parsedWorkSheet.setSheetName(iterator.getSheetName());
+			parsedWorkBook.getSheetList().add(parsedWorkSheet);
 			System.out.println(iterator.getSheetName());
 			InputSource sheetSource = new InputSource(sheet);
 			parser.parse(sheetSource);
@@ -114,13 +119,13 @@ public class MyEventUserModel {
 				Matcher matcher = COLUMN_A.matcher(coordinate);
 				
 				// 第一行单独解析行号
-				if (matcher.matches() && rowData.getCellMap().isEmpty()) {
+				if (matcher.matches() && rowData.getCellList().isEmpty()) {
 					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
 				}
 				
-				if (matcher.matches() && !rowData.getCellMap().isEmpty()) {
+				if (matcher.matches() && !rowData.getCellList().isEmpty()) {
 					sheetData.add(rowData);
-					rowData = new ParsedRow();
+					rowData = new ParsedExcelRow();
 					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
 				}
 				
@@ -139,7 +144,7 @@ public class MyEventUserModel {
 		}
 		
 		@Override
-		public void endElement(String uri, String localName, String name) throws SAXException {
+		public void endElement(String uri, String localName, String name) {
 			// Process the last contents as required.
 			// Do now, as characters() may be called more than once
 			if (nextIsString) {
@@ -154,13 +159,17 @@ public class MyEventUserModel {
 			// Output after we've seen the string contents
 			if (name.equals("v")) {
 				System.out.println(lastContents);
-				rowData.getCellMap().put(index.intValue(), lastContents);
+				int size = rowData.getCellList().size();
+				for (int idx = size; idx < index; idx++) {
+					rowData.getCellList().add(null);
+				}
+				rowData.getCellList().add(lastContents);
 			}
 		}
 		
 		@Override
 		public void endDocument() throws SAXException {
-			if (!rowData.getCellMap().isEmpty()) {
+			if (!rowData.getCellList().isEmpty()) {
 				sheetData.add(rowData);
 			}
 		}
@@ -304,9 +313,9 @@ public class MyEventUserModel {
 		String           fileName  = "/study/excel性能测试/全渠道商品发布模板 - 副本 (12).xlsx";
 		MyEventUserModel example   = new MyEventUserModel();
 		Stopwatch        stopwatch = Stopwatch.createStarted();
-		example.processOneSheet(fileName);
+//		example.processOneSheet(fileName);
+		example.processAllSheets(fileName);
 		System.out.println("-----------------finish, " + stopwatch.toString());
-		//example.processAllSheets(fileName);
 		Thread.sleep(100000 * 1000);
 		example.sheetData
 				.stream()
