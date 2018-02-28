@@ -25,8 +25,6 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * sax解析会越过空的cell，因为空的cell根本不会在sheet.xml出现。处理cell时列号要自己存储
@@ -36,7 +34,6 @@ import java.util.regex.Pattern;
  **/
 public class MyEventUserModel {
 	
-	private static Pattern              COLUMN_A       = Pattern.compile("A([\\d]+)");
 	private        ParsedWorkBook       parsedWorkBook = new ParsedWorkBook();
 	private        List<ParsedExcelRow> sheetData      = Lists.newArrayList();
 	private        ParsedExcelRow       rowData        = new ParsedExcelRow();
@@ -109,25 +106,18 @@ public class MyEventUserModel {
 		
 		@Override
 		public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
+			if (name.equals("row")) {
+				String rowIdx = attributes.getValue("r");
+				rowData.setRowIndex(Integer.valueOf(rowIdx) - 1);
+			}
+			
 			// c => cell
 			if (name.equals("c")) {
 				// Print the cell reference
 				String        coordinate    = attributes.getValue("r");
 				CellReference cellReference = new CellReference(coordinate);
 				index = cellReference.getCol();
-				System.out.print(coordinate + " - ");
-				Matcher matcher = COLUMN_A.matcher(coordinate);
 				
-				// 第一行单独解析行号
-				if (matcher.matches() && rowData.getCellList().isEmpty()) {
-					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
-				}
-				
-				if (matcher.matches() && !rowData.getCellList().isEmpty()) {
-					sheetData.add(rowData);
-					rowData = new ParsedExcelRow();
-					rowData.setRowIndex(Integer.valueOf(matcher.group(1)) - 1);
-				}
 				
 				this.setNextDataType(attributes);
 				
@@ -164,6 +154,11 @@ public class MyEventUserModel {
 					rowData.getCellList().add(null);
 				}
 				rowData.getCellList().add(lastContents);
+			}
+			
+			if (name.equals("row")) {
+				sheetData.add(rowData);
+				rowData = new ParsedExcelRow();
 			}
 		}
 		
