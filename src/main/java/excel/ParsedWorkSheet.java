@@ -17,5 +17,6 @@ import java.util.List;
 public class ParsedWorkSheet {
 	
 	private String sheetName;
+	private Boolean              hidden  = false;
 	private List<ParsedExcelRow> rowList = Lists.newArrayList();
 }

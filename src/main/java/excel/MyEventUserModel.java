@@ -34,16 +34,16 @@ import java.util.List;
  **/
 public class MyEventUserModel {
 	
-	private        ParsedWorkBook       parsedWorkBook = new ParsedWorkBook();
-	private        List<ParsedExcelRow> sheetData      = Lists.newArrayList();
-	private        ParsedExcelRow       rowData        = new ParsedExcelRow();
+	private List<ParsedExcelRow> sheetData = Lists.newArrayList();
+	private ParsedExcelRow       rowData   = new ParsedExcelRow();
 	private StylesTable stylesTable;
 	
 	public void processOneSheet(String filename) throws Exception {
-		OPCPackage         pkg    = OPCPackage.open(filename);
-		XSSFReader         r      = new XSSFReader(pkg);
-		SharedStringsTable sst    = r.getSharedStringsTable();
-		XMLReader          parser = fetchSheetParser(sst);
+		OPCPackage         pkg            = OPCPackage.open(filename);
+		XSSFReader         r              = new XSSFReader(pkg);
+		SharedStringsTable sst            = r.getSharedStringsTable();
+		ParsedWorkBook     parsedWorkBook = new ParsedWorkBook();
+		XMLReader          parser         = fetchSheetParser(sst, parsedWorkBook);
 		stylesTable = r.getStylesTable();
 		
 		// To look up the Sheet Name / Sheet Order / rID,
@@ -55,11 +55,12 @@ public class MyEventUserModel {
 		sheet2.close();
 	}
 	
-	public void processAllSheets(String filename) throws Exception {
-		OPCPackage         pkg    = OPCPackage.open(filename);
-		XSSFReader         r      = new XSSFReader(pkg);
-		SharedStringsTable sst    = r.getSharedStringsTable();
-		XMLReader          parser = fetchSheetParser(sst);
+	public ParsedWorkBook processAllSheets(String filename) throws Exception {
+		OPCPackage         pkg            = OPCPackage.open(filename);
+		XSSFReader         r              = new XSSFReader(pkg);
+		SharedStringsTable sst            = r.getSharedStringsTable();
+		ParsedWorkBook     parsedWorkBook = new ParsedWorkBook();
+		XMLReader          parser         = fetchSheetParser(sst, parsedWorkBook);
 		stylesTable = r.getStylesTable();
 		
 		Iterator<InputStream>    sheets   = r.getSheetsData();
@@ -78,14 +79,21 @@ public class MyEventUserModel {
 			sheet.close();
 			System.out.println("");
 		}
+		
+		InputStream workbookData   = r.getWorkbookData();
+		InputSource workBookSource = new InputSource(workbookData);
+		parser.parse(workBookSource);
+		workbookData.close();
+		
+		return parsedWorkBook;
 	}
 	
-	public XMLReader fetchSheetParser(SharedStringsTable sst) throws SAXException {
+	public XMLReader fetchSheetParser(SharedStringsTable sst, ParsedWorkBook parsedWorkBook) throws SAXException {
 		XMLReader parser =
 				XMLReaderFactory.createXMLReader(
 						"org.apache.xerces.parsers.SAXParser"
 				);
-		ContentHandler handler = new SheetHandler(sst);
+		ContentHandler handler = new SheetHandler(sst, parsedWorkBook);
 		parser.setContentHandler(handler);
 		return parser;
 	}
@@ -99,9 +107,11 @@ public class MyEventUserModel {
 		private String             lastContents;
 		private boolean            nextIsString;
 		private Short              index;
+		private ParsedWorkBook     parsedWorkBook;
 		
-		private SheetHandler(SharedStringsTable sst) {
+		private SheetHandler(SharedStringsTable sst, ParsedWorkBook parsedWorkBook) {
 			this.sst = sst;
+			this.parsedWorkBook = parsedWorkBook;
 		}
 		
 		@Override
@@ -109,6 +119,14 @@ public class MyEventUserModel {
 			if (name.equals("row")) {
 				String rowIdx = attributes.getValue("r");
 				rowData.setRowIndex(Integer.valueOf(rowIdx) - 1);
+			}
+			
+			if (name.equals("sheet")) {
+				String state   = attributes.getValue("state");
+				String sheetId = attributes.getValue("sheetId");
+				if ("hidden".equals(state)) {
+					parsedWorkBook.getSheetList().get(Integer.valueOf(sheetId) - 1).setHidden(true);
+				}
 			}
 			
 			// c => cell
