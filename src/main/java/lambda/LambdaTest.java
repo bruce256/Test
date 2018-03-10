@@ -28,5 +28,8 @@ public class LambdaTest {
 		
 		Optional<Integer> min = Stream.of(1, 2, 3).min(Comparator.naturalOrder());
 		System.out.println(min.get());
+		
+		Integer sum = Stream.of(1, 2, 3).reduce(binaryOperator).get();
+		System.out.println(sum);
 	}
 }
