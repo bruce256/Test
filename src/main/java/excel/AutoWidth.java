@@ -44,7 +44,7 @@ public class AutoWidth {
 				xssfSheet.autoSizeColumn(colIdx);
 			}
 			
-			CellRangeAddressList regions = new CellRangeAddressList(0, 10, 0, 2);
+			CellRangeAddressList regions = new CellRangeAddressList(1, Short.MAX_VALUE, 0, 2);
 			//生成下拉框内容
 			String[] array = new String[2];
 			for (int i = 0; i < array.length; i++) {

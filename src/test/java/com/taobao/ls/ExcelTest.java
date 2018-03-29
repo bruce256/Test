@@ -1,13 +1,17 @@
 package com.taobao.ls;
 
 import com.google.common.collect.Lists;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +52,63 @@ public class ExcelTest {
 				Cell  cell         = row.getCell(firstCellNum);
 				System.out.println(cell.toString());
 			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void writeExcel() {
+		try (FileOutputStream fos = new FileOutputStream("/study/excel性能测试/gant-全渠道商品发布模板10000.xlsx");
+			 XSSFWorkbook wb = new XSSFWorkbook("/study/excel性能测试/gant-全渠道商品发布模板.xlsx")) {
+			XSSFSheet     sheet       = wb.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.rowIterator();
+			List<Row>     list        = Lists.newArrayList(rowIterator);
+			Row           cells       = list.get(3);
+			short         lastCellNum = cells.getLastCellNum();
+			for (int rowIdx = 4; rowIdx < 10000; rowIdx++) {
+				XSSFRow row = sheet.createRow(rowIdx);
+				for (int columnIdx = 0; columnIdx < lastCellNum; columnIdx++) {
+					Cell cell = null;
+					try {
+						cell = cells.getCell(columnIdx);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (cell != null) {
+						XSSFCell rowCell = row.createCell(columnIdx);
+						switch (cell.getCellTypeEnum()) {
+							case STRING:
+								rowCell.setCellValue(cell.getStringCellValue() + rowIdx);
+								break;
+							case NUMERIC:
+								rowCell.setCellValue(cell.getNumericCellValue() + rowIdx);
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+			wb.write(fos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void writeExcel1() {
+		try (FileOutputStream fos = new FileOutputStream("/study/excel性能测试/满载.xlsx");
+			 XSSFWorkbook wb = new XSSFWorkbook()) {
+			XSSFSheet sheet = wb.createSheet();
+			for (int r = 0; r < 20 * 10000; r++) {
+				XSSFRow row = sheet.createRow(r);
+				for (int c = 0; c < 19; c++) {
+					XSSFCell cell = row.createCell(c);
+					cell.setCellValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				}
+			}
+			wb.write(fos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
