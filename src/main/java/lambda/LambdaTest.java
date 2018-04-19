@@ -1,5 +1,6 @@
 package lambda;
 
+import com.google.common.collect.Lists;
 import org.junit.Test;
 
 import java.util.Comparator;
@@ -31,5 +32,12 @@ public class LambdaTest {
 		
 		Integer sum = Stream.of(1, 2, 3).reduce(binaryOperator).get();
 		System.out.println(sum);
+	}
+	
+	@Test
+	public void max() {
+		List<Integer>     list = Lists.newArrayList(1, 3, 6, 68, 3);
+		Optional<Integer> max  = list.stream().max(Integer::compareTo);
+		System.out.println(max.get());
 	}
 }

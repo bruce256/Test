@@ -323,7 +323,7 @@ public class MyEventUserModel {
 	public static void main(String[] args) throws Exception {
 		//String           fileName  = "/Users/lvsheng/Downloads/全渠道商品发布模板.xlsx";
 //		String           fileName  = "/study/excel性能测试/win_test.xlsx";
-		String           fileName  = "/study/excel性能测试/全渠道商品发布模板 - 副本 (12).xlsx";
+		String           fileName  = "/temp/formula_test.xlsx";
 		MyEventUserModel example   = new MyEventUserModel();
 		Stopwatch        stopwatch = Stopwatch.createStarted();
 //		example.processOneSheet(fileName);

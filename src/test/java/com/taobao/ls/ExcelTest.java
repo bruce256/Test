@@ -3,9 +3,13 @@ package com.taobao.ls;
 import com.google.common.collect.Lists;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -32,6 +36,24 @@ public class ExcelTest {
 		sheet.setAutoFilter(cra);
 		try {
 			FileOutputStream fos = new FileOutputStream("/temp/filter.xlsx");
+			wb.write(fos);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void writeError() {
+		XSSFWorkbook wb    = new XSSFWorkbook();
+		XSSFSheet    sheet = wb.createSheet("formula");
+		XSSFRow      row   = sheet.createRow(0);
+		XSSFCell     cell  = row.createCell(0);
+		cell.setCellType(CellType.FORMULA);
+		cell.setCellValue("formula");
+		try {
+			FileOutputStream fos = new FileOutputStream("/temp/formula.xlsx");
 			wb.write(fos);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -113,4 +135,33 @@ public class ExcelTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void lockSheet() {
+		try {
+			String       fileName = "/temp/lockSheet.xlsx";
+			XSSFWorkbook wb       = new XSSFWorkbook();
+			CellStyle    style    = wb.getCellStyleAt(0);
+			style.setLocked(false);
+			
+			
+			XSSFSheet xssfSheet = wb.createSheet("儒尊");
+			//可编辑的单元格样式
+			CellStyle lockedCellStyle = xssfSheet.getWorkbook().createCellStyle();
+			lockedCellStyle.setLocked(false);
+			
+			org.openxmlformats.schemas.spreadsheetml.x2006.main.CTCol cTCol = ((XSSFSheet) xssfSheet).getCTWorksheet().getColsArray(0).addNewCol();
+			cTCol.setMin(1);
+			cTCol.setMax(SpreadsheetVersion.EXCEL2007.getMaxColumns());
+			cTCol.setStyle(lockedCellStyle.getIndex());
+			xssfSheet.lockFormatCells(true);
+			xssfSheet.lockFormatColumns(true);
+			xssfSheet.lockFormatRows(true);
+			xssfSheet.protectSheet("123456");
+			wb.write(new FileOutputStream(fileName));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
