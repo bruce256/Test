@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<purchase-order
+        xmlns:xsi="/work/dev_tools/xmlbeans-1.0.3/schemas/easypo/easypo.xsd"
+        xmlns="http://openuri.org/easypo">
+    <customer>
+        <name>lvsheng</name>
+        <address>fdsafadsaf</address>
+    </customer>
+    <date>2019-09-01T12:12:23</date>
+    <line-item>
+        <description>rewqrqewr</description>
+        <per-unit-ounces>21</per-unit-ounces>
+        <price>43</price>
+        <quantity>34</quantity>
+    </line-item>
+    <shipper>
+        <name>shouyi</name>
+        <per-ounce-rate>45</per-ounce-rate>
+    </shipper>
+</purchase-order>
