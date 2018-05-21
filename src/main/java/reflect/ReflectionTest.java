@@ -1,10 +1,9 @@
 package reflect;
 
 import com.google.common.base.Stopwatch;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.reflections.Reflections;
 
+import java.io.InputStream;
 import java.util.Set;
 
 /**
@@ -14,9 +13,9 @@ import java.util.Set;
 public class ReflectionTest {
 	
 	public static void main(String[] args) {
-		Reflections                    reflections = new Reflections("org.");
-		Stopwatch                      stopwatch   = Stopwatch.createStarted();
-		Set<Class<? extends Sheet>> allTypes    = reflections.getSubTypesOf(Sheet.class);
+		Reflections                       reflections = new Reflections("java.");
+		Stopwatch                         stopwatch   = Stopwatch.createStarted();
+		Set<Class<? extends InputStream>> allTypes    = reflections.getSubTypesOf(InputStream.class);
 		System.out.println(stopwatch.toString());
 		for (Class type : allTypes) {
 			System.out.println(type.getName());
