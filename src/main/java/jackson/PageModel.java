@@ -12,7 +12,7 @@ import lombok.Data;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
 /*
 @JsonSubTypes({@JsonSubTypes.Type(value = InputPageModel.class, name = "input")
-					  , @JsonSubTypes.Type(value = NumberPageModel.class, name = "number")})
+					  , @JsonSubTypes.Type(value = jackson.NumberPageModel.class, name = "number")})
 */
 public abstract class PageModel {
 	

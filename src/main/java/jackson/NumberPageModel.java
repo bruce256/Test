@@ -1,6 +1,7 @@
 package jackson;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jackson.PageModel;
 import lombok.Data;
 
 /**

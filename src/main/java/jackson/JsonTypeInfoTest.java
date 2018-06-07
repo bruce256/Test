@@ -1,7 +1,7 @@
 package jackson;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import reflect.LongPageModel;
 
 import java.io.IOException;
 
@@ -20,8 +20,13 @@ public class JsonTypeInfoTest {
 				"        \n" +
 				"      }";
 		ObjectMapper mapper = new ObjectMapper();
+		
+		mapper.registerSubtypes(InputPageModel.class);
+		mapper.registerSubtypes(NumberPageModel.class);
+		mapper.registerSubtypes(LongPageModel.class);
+		
 		try {
-			InputPageModel inputPageModel = mapper.readValue(inputJson, InputPageModel.class);
+			InputPageModel inputPageModel = ((InputPageModel) mapper.readValue(inputJson, PageModel.class));
 			System.out.println(inputPageModel.getInput());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -35,8 +40,22 @@ public class JsonTypeInfoTest {
 				"        \n" +
 				"      }";
 		try {
-			NumberPageModel inputPageModel = mapper.readValue(numberJson, NumberPageModel.class);
-			System.out.println(inputPageModel.getNumber());
+			NumberPageModel numberPageModel = ((NumberPageModel) mapper.readValue(numberJson, PageModel.class));
+			System.out.println(numberPageModel.getNumber());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String longJson = " {\n" +
+				"        \"type\": \"long\",\n" +
+				"        \"label\": \"商品条码\",\n" +
+				"        \"uiType\": \"input\",\n" +
+				"        \"num\" : 9910\n" +
+				"        \n" +
+				"      }";
+		try {
+			LongPageModel longPageModel = ((LongPageModel) mapper.readValue(longJson, NumberPageModel.class));
+			System.out.println(longPageModel.getNum());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
