@@ -1,6 +1,5 @@
-// Generated from /work/github/Test/src/main/java/antlr/Hello.g4 by ANTLR 4.7
+// Generated from /work/github/Test/src/main/java/antlr/Hello.g4 by ANTLR 4.5.3
 package antlr.gen.hello;
-
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -9,34 +8,21 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * of the available methods.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
- *            operations with no return type.
+ * operations with no return type.
  */
 public class HelloBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements HelloVisitor<T> {
-	
-	@Override
-	protected T defaultResult() {
-		return (T) new String();
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override
-	public T visitProg(HelloParser.ProgContext ctx) {
-		return visitChildren(ctx);
-	}
-	
+	@Override public T visitProg(HelloParser.ProgContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override
-	public T visitR(HelloParser.RContext ctx) {
-		return visitChildren(ctx);
-	}
+	@Override public T visitR(HelloParser.RContext ctx) { return visitChildren(ctx); }
 }

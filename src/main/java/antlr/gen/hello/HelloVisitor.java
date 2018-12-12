@@ -1,4 +1,4 @@
-// Generated from /work/github/Test/src/main/java/antlr/Hello.g4 by ANTLR 4.7
+// Generated from /work/github/Test/src/main/java/antlr/Hello.g4 by ANTLR 4.5.3
 package antlr.gen.hello;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
