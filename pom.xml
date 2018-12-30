@@ -124,8 +124,8 @@
         <!-- pdf start -->
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
-            <version>9.0.7</version>
             <artifactId>flying-saucer-pdf</artifactId>
+            <version>9.0.9</version>
         </dependency>
 
         <dependency>

@@ -27,14 +27,13 @@ public class PdfTest {
 			byte[]          contentBytes = new byte[(int) file.length()];
 			fis.read(contentBytes);
 			String content = new String(contentBytes);
-			renderer.setDocumentFromString(content);
+			renderer.setDocument(file);
 			renderer.layout();
 			
 			ITextFontResolver fontResolver = renderer.getFontResolver();
-			fontResolver.addFont(contextClassLoader.getResource("SimSun.ttf").getPath(),
+			fontResolver.addFont(contextClassLoader.getResource("simsun.ttc").getPath(),
 								 BaseFont.IDENTITY_H,
 								 BaseFont.NOT_EMBEDDED);
-			
 			renderer.createPDF(fos);
 			renderer.finishPDF();
 		} catch (FileNotFoundException e) {
