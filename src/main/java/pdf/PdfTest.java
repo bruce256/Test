@@ -6,7 +6,6 @@ import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,12 +20,8 @@ public class PdfTest {
 		
 		ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 		try (FileOutputStream fos = new FileOutputStream("/temp/pdf/test.pdf")) {
-			ITextRenderer   renderer     = new ITextRenderer();
-			File            file         = new File(contextClassLoader.getResource("pdf.html").getPath());
-			FileInputStream fis          = new FileInputStream(file);
-			byte[]          contentBytes = new byte[(int) file.length()];
-			fis.read(contentBytes);
-			String content = new String(contentBytes);
+			ITextRenderer renderer = new ITextRenderer();
+			File          file     = new File(contextClassLoader.getResource("pdf.html").getPath());
 			renderer.setDocument(file);
 			renderer.layout();
 			
