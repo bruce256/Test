@@ -23,12 +23,12 @@ public class PdfTest {
 			ITextRenderer renderer = new ITextRenderer();
 			File          file     = new File(contextClassLoader.getResource("pdf.html").getPath());
 			renderer.setDocument(file);
-			renderer.layout();
-			
 			ITextFontResolver fontResolver = renderer.getFontResolver();
 			fontResolver.addFont(contextClassLoader.getResource("simsun.ttc").getPath(),
 								 BaseFont.IDENTITY_H,
 								 BaseFont.NOT_EMBEDDED);
+			renderer.layout();
+			
 			renderer.createPDF(fos);
 			renderer.finishPDF();
 		} catch (FileNotFoundException e) {
