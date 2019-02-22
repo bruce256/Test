@@ -1,0 +1,10 @@
+<html>
+<body>
+    ... ...
+    #foreach($item in $!{TableField-JSFLNNTH})
+        $!{item.MoneyField-JSFLNXEV}
+        $!{item.TextField-JSFLNXEW}
+    #end
+    ... ...
+<body>
+<html>
