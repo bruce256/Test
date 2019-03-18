@@ -1,8 +1,8 @@
 grammar power;
 
-prog: stat+;
+prog: stat;
 
-stat: INT'^'INT # pow
+stat: INT'^'INT # Pow
 ;
 
 INT : [0-9]+ ;
