@@ -3,11 +3,8 @@ package antlr.gen.power;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class powerParser extends Parser {
@@ -17,18 +14,18 @@ public class powerParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, INT=2, WS=3;
+		T__0=1, T__1=2, T__2=3, INT=4, SEMICOLON=5, WS=6;
 	public static final int
-		RULE_prog = 0, RULE_stat = 1;
+		RULE_prog = 0, RULE_express = 1;
 	public static final String[] ruleNames = {
-		"prog", "stat"
+		"prog", "express"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'^'"
+		null, "'^'", "'('", "')'", null, "';'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, "INT", "WS"
+		null, null, null, null, "INT", "SEMICOLON", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -80,9 +77,10 @@ public class powerParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class ProgContext extends ParserRuleContext {
-		public StatContext stat() {
-			return getRuleContext(StatContext.class,0);
+		public ExpressContext express() {
+			return getRuleContext(ExpressContext.class,0);
 		}
+		public TerminalNode SEMICOLON() { return getToken(powerParser.SEMICOLON, 0); }
 		public ProgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -109,7 +107,9 @@ public class powerParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(4);
-			stat();
+			express(0);
+			setState(5);
+			match(SEMICOLON);
 			}
 		}
 		catch (RecognitionException re) {
@@ -123,23 +123,25 @@ public class powerParser extends Parser {
 		return _localctx;
 	}
 
-	public static class StatContext extends ParserRuleContext {
-		public StatContext(ParserRuleContext parent, int invokingState) {
+	public static class ExpressContext extends ParserRuleContext {
+		public ExpressContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_stat; }
+		@Override public int getRuleIndex() { return RULE_express; }
 	 
-		public StatContext() { }
-		public void copyFrom(StatContext ctx) {
+		public ExpressContext() { }
+		public void copyFrom(ExpressContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class PowContext extends StatContext {
-		public List<TerminalNode> INT() { return getTokens(powerParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(powerParser.INT, i);
+	public static class PowContext extends ExpressContext {
+		public List<ExpressContext> express() {
+			return getRuleContexts(ExpressContext.class);
 		}
-		public PowContext(StatContext ctx) { copyFrom(ctx); }
+		public ExpressContext express(int i) {
+			return getRuleContext(ExpressContext.class,i);
+		}
+		public PowContext(ExpressContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof powerListener ) ((powerListener)listener).enterPow(this);
@@ -154,20 +156,111 @@ public class powerParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class ParenthesisContext extends ExpressContext {
+		public ExpressContext express() {
+			return getRuleContext(ExpressContext.class,0);
+		}
+		public ParenthesisContext(ExpressContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof powerListener ) ((powerListener)listener).enterParenthesis(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof powerListener ) ((powerListener)listener).exitParenthesis(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof powerVisitor ) return ((powerVisitor<? extends T>)visitor).visitParenthesis(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntContext extends ExpressContext {
+		public TerminalNode INT() { return getToken(powerParser.INT, 0); }
+		public IntContext(ExpressContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof powerListener ) ((powerListener)listener).enterInt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof powerListener ) ((powerListener)listener).exitInt(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof powerVisitor ) return ((powerVisitor<? extends T>)visitor).visitInt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
-	public final StatContext stat() throws RecognitionException {
-		StatContext _localctx = new StatContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_stat);
+	public final ExpressContext express() throws RecognitionException {
+		return express(0);
+	}
+
+	private ExpressContext express(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		ExpressContext _localctx = new ExpressContext(_ctx, _parentState);
+		ExpressContext _prevctx = _localctx;
+		int _startState = 2;
+		enterRecursionRule(_localctx, 2, RULE_express, _p);
 		try {
-			_localctx = new PowContext(_localctx);
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(6);
-			match(INT);
-			setState(7);
-			match(T__0);
-			setState(8);
-			match(INT);
+			setState(13);
+			switch (_input.LA(1)) {
+			case T__1:
+				{
+				_localctx = new ParenthesisContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
+				setState(8);
+				match(T__1);
+				setState(9);
+				express(0);
+				setState(10);
+				match(T__2);
+				}
+				break;
+			case INT:
+				{
+				_localctx = new IntContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(12);
+				match(INT);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(20);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new PowContext(new ExpressContext(_parentctx, _parentState));
+					pushNewRecursionContext(_localctx, _startState, RULE_express);
+					setState(15);
+					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+					setState(16);
+					match(T__0);
+					setState(17);
+					express(4);
+					}
+					} 
+				}
+				setState(22);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -176,16 +269,35 @@ public class powerParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			exitRule();
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
 
+	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
+		switch (ruleIndex) {
+		case 1:
+			return express_sempred((ExpressContext)_localctx, predIndex);
+		}
+		return true;
+	}
+	private boolean express_sempred(ExpressContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0:
+			return precpred(_ctx, 3);
+		}
+		return true;
+	}
+
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\5\r\4\2\t\2\4\3\t"+
-		"\3\3\2\3\2\3\3\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\n\2\6\3\2\2\2\4\b\3\2\2\2"+
-		"\6\7\5\4\3\2\7\3\3\2\2\2\b\t\7\4\2\2\t\n\7\3\2\2\n\13\7\4\2\2\13\5\3\2"+
-		"\2\2\2";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\b\32\4\2\t\2\4\3"+
+		"\t\3\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3\20\n\3\3\3\3\3\3\3\7\3\25"+
+		"\n\3\f\3\16\3\30\13\3\3\3\2\3\4\4\2\4\2\2\31\2\6\3\2\2\2\4\17\3\2\2\2"+
+		"\6\7\5\4\3\2\7\b\7\7\2\2\b\3\3\2\2\2\t\n\b\3\1\2\n\13\7\4\2\2\13\f\5\4"+
+		"\3\2\f\r\7\5\2\2\r\20\3\2\2\2\16\20\7\6\2\2\17\t\3\2\2\2\17\16\3\2\2\2"+
+		"\20\26\3\2\2\2\21\22\f\5\2\2\22\23\7\3\2\2\23\25\5\4\3\6\24\21\3\2\2\2"+
+		"\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\5\3\2\2\2\30\26\3\2\2\2"+
+		"\4\17\26";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

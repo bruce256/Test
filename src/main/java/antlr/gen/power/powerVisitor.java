@@ -18,9 +18,23 @@ public interface powerVisitor<T> extends ParseTreeVisitor<T> {
 	T visitProg(powerParser.ProgContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Pow}
-	 * labeled alternative in {@link powerParser#stat}.
+	 * labeled alternative in {@link powerParser#express}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPow(powerParser.PowContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parenthesis}
+	 * labeled alternative in {@link powerParser#express}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenthesis(powerParser.ParenthesisContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code int}
+	 * labeled alternative in {@link powerParser#express}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInt(powerParser.IntContext ctx);
 }

@@ -17,7 +17,7 @@ public class MathTest {
 	public static void main(String[] args) {
 		
 		
-		ANTLRInputStream  inputStream = new ANTLRInputStream("1 + 2 + 3 * 4+ 6 / 2\r\n");
+		ANTLRInputStream  inputStream = new ANTLRInputStream(" 3 * 4+ 6 / 2\r\n");
 		MathLexer         lexer       = new MathLexer(inputStream);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		MathParser        parser      = new MathParser(tokenStream);

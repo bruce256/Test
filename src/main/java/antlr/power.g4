@@ -1,9 +1,13 @@
 grammar power;
 
-prog: stat;
+prog: express SEMICOLON;
 
-stat: INT'^'INT # Pow
-;
+express: express '^' express    # Pow
+    | '(' express ')'           # parenthesis
+    | INT                       # int
+    ;
+
 
 INT : [0-9]+ ;
+SEMICOLON : ';';
 WS : [ \t]+ -> skip;

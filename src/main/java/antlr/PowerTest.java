@@ -10,6 +10,7 @@ import antlr.gen.power.powerParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class PowerTest {
 	
@@ -17,16 +18,16 @@ public class PowerTest {
 	public static void main(String[] args) {
 		
 		
-		ANTLRInputStream  inputStream = new ANTLRInputStream("2^10");
+		ANTLRInputStream  inputStream = new ANTLRInputStream("2^(2^3)^2;");
 		powerLexer        lexer       = new powerLexer(inputStream);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		powerParser       parser      = new powerParser(tokenStream);
 		ParseTree         parseTree   = parser.prog();
 		PowerVisitorImpl  visitor     = new PowerVisitorImpl();
-		Long              rtn         = visitor.visit(parseTree);
+		Double            rtn         = visitor.visit(parseTree);
 		System.out.println("#result# = " + rtn.toString());
 		
-		
+		ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
 	}
 	
 	
