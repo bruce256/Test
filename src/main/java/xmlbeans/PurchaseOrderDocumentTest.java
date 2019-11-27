@@ -1,3 +1,4 @@
+/*
 package xmlbeans;
 
 import com.alibaba.fastjson.JSON;
@@ -7,10 +8,12 @@ import org.openuri.easypo.PurchaseOrderDocument;
 import java.io.File;
 import java.io.IOException;
 
+*/
 /**
  * @auther 儒尊
  * @date 2018/4/23
- **/
+ **//*
+
 public class PurchaseOrderDocumentTest {
 	
 	public static void main(String[] args) {
@@ -26,3 +29,4 @@ public class PurchaseOrderDocumentTest {
 		}
 	}
 }
+*/
