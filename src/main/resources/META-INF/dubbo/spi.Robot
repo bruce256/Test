@@ -1,0 +1,2 @@
+bumblebee=spi.Bumblebee
+optimusPrime=spi.OptimusPrime
