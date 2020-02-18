@@ -7,11 +7,16 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 /**
+ * 后根遍历序
+ *
  * @author lvsheng
  * @date 2018/10/5
  **/
 public class MathVisitorImpl extends MathBaseVisitor<Integer> {
 	
+	/**
+	 * 存储变量值
+	 */
 	private Map<String, Integer> memory = Maps.newHashMap();
 	
 	@Override

@@ -2,6 +2,7 @@ grammar Math;
 
 prog : stat+;
 
+// 文法定义
 stat: expr NEWLINE          # printExpr
     | ID '=' expr NEWLINE   # assign
     | NEWLINE               # blank
@@ -14,6 +15,7 @@ expr:  expr op=('*'|'/') expr   # MulDiv
 | '(' expr ')'                  # parens
 ;
 
+// 词法定义
 MUL : '*' ; // assigns token name to '*' used above in grammar
 DIV : '/' ;
 ADD : '+' ;
