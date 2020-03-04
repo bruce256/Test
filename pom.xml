@@ -23,7 +23,7 @@
 
     <properties>
         <v.poi>3.17</v.poi>
-        <jackson-version>2.9.3</jackson-version>
+        <jackson-version>2.9.10.3</jackson-version>
     </properties>
 
     <dependencies>
