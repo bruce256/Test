@@ -8,12 +8,12 @@ import java.util.Map;
  * @author LvSheng
  * @date 2020/2/26
  **/
-public class Count {
+public class Count<T>{
 	
 	public static String prefix1 = "0X01";
 	public static String prefix2 = "0X02";
 	public static String prefix3 = "0X03";
-	
+
 	public void count(String input) {
 		if (input == null || input.isEmpty()) return;
 		
