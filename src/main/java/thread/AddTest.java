@@ -1,5 +1,7 @@
 package thread;
 
+import java.util.Arrays;
+
 /**
  * @author LvSheng
  * @date 2020/1/29
@@ -11,6 +13,8 @@ public class AddTest {
 		int b;
 		b = a++;
 		b = ++a;
+		new String().intern();
+		Arrays.binarySearch()
 	}
 	
 }

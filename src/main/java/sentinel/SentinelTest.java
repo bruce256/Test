@@ -17,14 +17,18 @@ import java.util.List;
 public class SentinelTest {
 	
 	private static void initFlowRules() {
-		List<FlowRule> rules = new ArrayList<>();
-		FlowRule       rule  = new FlowRule();
-		rule.setResource("HelloWorld");
-		rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
-		// Set limit QPS to 20.
-		rule.setCount(20);
-		rules.add(rule);
-		FlowRuleManager.loadRules(rules);
+		try {
+			List<FlowRule> rules = new ArrayList<>();
+			FlowRule       rule  = new FlowRule();
+			rule.setResource("HelloWorld");
+			rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+			// Set limit QPS to 20.
+			rule.setCount(20);
+			rules.add(rule);
+			FlowRuleManager.loadRules(rules);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
