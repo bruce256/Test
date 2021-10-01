@@ -14,7 +14,6 @@ public class AddTest {
 		b = a++;
 		b = ++a;
 		new String().intern();
-		Arrays.binarySearch()
 	}
 	
 }

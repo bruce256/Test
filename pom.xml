@@ -24,6 +24,7 @@
     <properties>
         <v.poi>3.17</v.poi>
         <jackson-version>2.9.3</jackson-version>
+        <v-sentinel>1.8.2</v-sentinel>
     </properties>
 
     <dependencies>
@@ -152,13 +153,19 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
-            <version>1.7.1</version>
+            <version>${v-sentinel}</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-simple-http</artifactId>
-            <version>1.7.1</version>
+            <version>${v-sentinel}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-annotation-aspectj</artifactId>
+            <version>${v-sentinel}</version>
         </dependency>
 
         <dependency>
