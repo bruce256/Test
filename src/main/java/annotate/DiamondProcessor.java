@@ -8,7 +8,7 @@ package annotate;
 @DiamondData(groupId = "groupId-ruzun", dataId = "dataId-ruzun")
 public class DiamondProcessor {
 	
-	public void test() {
+	public void myTest() {
 		DiamondData diamondData = this.getClass().getAnnotation(DiamondData.class);
 		System.out.println(diamondData.groupId());
 		System.out.println(diamondData.dataId());
@@ -16,6 +16,6 @@ public class DiamondProcessor {
 	
 	public static void main(String[] args) {
 		DiamondProcessor diamondProcessor = new DiamondProcessor();
-		diamondProcessor.test();
+		diamondProcessor.myTest();
 	}
 }
