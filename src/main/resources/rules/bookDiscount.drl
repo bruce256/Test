@@ -5,6 +5,7 @@ import drools.Order
 //规则一：所购图书总价在100元以下的没有优惠
 rule "book_discount_1"
     when
+        // $order 为绑定变量名
         $order:Order(originalPrice < 100)
     then
         $order.setRealPrice($order.getOriginalPrice());
