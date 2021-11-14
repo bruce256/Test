@@ -7,8 +7,8 @@ import ognl.domain.SlEmployee;
 import java.util.HashMap;
 
 /**
- * author   : ruzun
- * date     : 2017/2/12 上午3:55
+ * @author   : ruzun
+ * @date     : 2017/2/12 上午3:55
  */
 public class OgnlTest {
 
