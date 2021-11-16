@@ -5,10 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+/**
+ * @author LvSheng
+ */
 public class NioTest {
 	
 	public static void copyContrast() {
-		String infile   = "/Users/lvsheng/Movies/[电影天堂www.dy2018.com]羞羞的铁拳HD高清国语中英双字.mkv";
+		String infile   = "/Users/LvSheng/Movies/大话西游之大圣娶亲BD国粤双语中字.电影天堂.www.dy2018.com.mp4/大话西游之大圣娶亲BD国粤双语中字.电影天堂.www.dy2018.com.mp4";
 		String outfile  = "/Users/lvsheng/Movies/a.mkv";
 		String outfile2 = "/Users/lvsheng/Movies/b.mkv";
 		
