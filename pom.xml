@@ -25,9 +25,16 @@
         <v.poi>3.17</v.poi>
         <jackson-version>2.9.3</jackson-version>
         <v-sentinel>1.8.2</v-sentinel>
+        <v-rocketmq>4.9.2</v-rocketmq>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${v-rocketmq}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
