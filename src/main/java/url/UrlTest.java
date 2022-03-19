@@ -17,6 +17,7 @@ public class UrlTest {
 			System.out.println(url.getProtocol());
 			System.out.println(url.getPath());
 			System.out.println(url.getPort());
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

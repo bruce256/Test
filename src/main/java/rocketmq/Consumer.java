@@ -45,6 +45,6 @@ public class Consumer {
         consumer.start();
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.printf("Consumer Started." + localDateTime + "%n");
+        System.out.printf("Consumer Started. current time : " + localDateTime + "%n");
     }
 }

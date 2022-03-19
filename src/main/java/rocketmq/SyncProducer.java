@@ -20,14 +20,14 @@ public class SyncProducer {
         producer.setNamesrvAddr("localhost:9876");
         //Launch the instance.
         producer.start();
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 20; i++) {
             //Create a message instance, specifying topic, tag and message body.
             Message msg = new Message("TopicTest" /* Topic */,
-                "TagA" /* Tag */,
+                "Tag" + i /* Tag */,
                 ("Hello RocketMQ " +
                     i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
             );
-            msg.setDelayTimeLevel(i + 1);
+            msg.setDelayTimeLevel(i);
             //Call send message to deliver message to one of brokers.
             SendResult    sendResult    = producer.send(msg);
             LocalDateTime localDateTime = LocalDateTime.now();
