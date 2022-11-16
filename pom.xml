@@ -23,7 +23,7 @@
 
     <properties>
         <v.poi>3.17</v.poi>
-        <jackson-version>2.9.3</jackson-version>
+        <jackson-version>2.12.7.1</jackson-version>
         <v-sentinel>1.8.2</v-sentinel>
         <v-rocketmq>4.9.2</v-rocketmq>
     </properties>
