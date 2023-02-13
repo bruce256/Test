@@ -1,9 +1,12 @@
+/*
 package zip;
 
+*/
 /**
  * @author 儒尊
  * @date 2017/06/02
- */
+ *//*
+
 
 import org.apache.tools.zip.ZipEntry;
 import org.junit.Test;
@@ -13,9 +16,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
 
+*/
 /**
  * Created by muhua.gmh on 2017/5/27.
- */
+ *//*
+
 public class ZipTest {
 
 	@Test
@@ -57,3 +62,4 @@ public class ZipTest {
 		}
 	}
 }
+*/

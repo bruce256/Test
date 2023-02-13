@@ -1,4 +1,4 @@
-package clone;
+package drools.clone;
 
 import java.util.Date;
 

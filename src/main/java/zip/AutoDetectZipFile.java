@@ -1,3 +1,4 @@
+/*
 package zip;
 
 import info.monitorenter.cpdetector.io.*;
@@ -10,14 +11,18 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.zip.ZipException;
 
+*/
 /**
  * @author 儒尊
  * @date 2017/06/02
- */
+ *//*
 
+
+*/
 /**
  * Created by muhua.gmh on 2017/5/27.
- */
+ *//*
+
 public class AutoDetectZipFile extends ZipFile {
 
 	private HashMap<String, Charset> charsetHashMap = new HashMap<>();
@@ -74,4 +79,4 @@ public class AutoDetectZipFile extends ZipFile {
 	}
 
 
-}
+}*/

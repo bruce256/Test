@@ -2,7 +2,8 @@
  *
  * @author 儒尊
  * @date 2017/05/20
- */
+ *//*
+
 
 fun main(args: Array<String>) {
     println("hello world")
@@ -18,4 +19,4 @@ fun value(): Int {
     return a
 }
 
-fun String.toUpperYZL() : String= this.toUpperCase() + "-YZL"
+fun String.toUpperYZL() : String= this.toUpperCase() + "-YZL"*/
