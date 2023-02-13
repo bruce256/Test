@@ -9,10 +9,23 @@ public class ThreadMax {
 	public static void main(String[] args) {
 		int i = 1;
 		while (true) {
-			Thread thread = new Thread();
+			Thread thread = new TestThread();
 			thread.start();
 			System.out.println("thread : " + i);
 			i++;
+		}
+	}
+}
+
+class TestThread extends Thread {
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				Thread.sleep(Long.MAX_VALUE);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

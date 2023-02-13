@@ -1,3 +1,4 @@
+/*
 package fel;
 
 import com.greenpineyu.fel.FelEngine;
@@ -13,10 +14,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+*/
 /**
  * @author 儒尊
  * @date 2017/05/18
- */
+ *//*
+
 public class FelTest {
 	
 	public static void main(String[] args) {
@@ -168,3 +171,4 @@ public class FelTest {
 	
 	
 }
+*/

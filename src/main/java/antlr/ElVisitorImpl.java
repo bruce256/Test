@@ -1,3 +1,4 @@
+/*
 package antlr;
 
 import antlr.gen.El2BaseVisitor;
@@ -6,10 +7,12 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
+*/
 /**
  * @author lvsheng
  * @date 2019-03-23
- **/
+ **//*
+
 public class ElVisitorImpl extends El2BaseVisitor<Double> {
 	
 	public static final double TRUE = 1d;
@@ -17,9 +20,11 @@ public class ElVisitorImpl extends El2BaseVisitor<Double> {
 	
 	private Map<String, Double> context = Maps.newHashMap();
 	
-	/*************************************************
+	*/
+/*************************************************
 	 * 算术运算
-	 *************************************************/
+	 *************************************************//*
+
 	@Override
 	public Double visitProgram(El2Parser.ProgramContext ctx) {
 		Double result = null;
@@ -90,9 +95,11 @@ public class ElVisitorImpl extends El2BaseVisitor<Double> {
 	}
 	
 	
-	/*************************************************
+	*/
+/*************************************************
 	 * 逻辑运算
-	 *************************************************/
+	 *************************************************//*
+
 	@Override
 	public Double visitOr(El2Parser.OrContext ctx) {
 		Double left  = visit(ctx.logicStat(0));
@@ -162,3 +169,4 @@ public class ElVisitorImpl extends El2BaseVisitor<Double> {
 		return left <= right ? TRUE : FALSE;
 	}
 }
+*/
