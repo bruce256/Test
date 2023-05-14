@@ -6,7 +6,11 @@ package cglib;
  */
 public class SayHello {
 
-	public void say() {
+	public void callee() {
 		System.out.println("hello everyone");
+	}
+	
+	public void caller() {
+		this.callee();
 	}
 }
