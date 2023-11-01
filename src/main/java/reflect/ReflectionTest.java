@@ -1,7 +1,7 @@
 package reflect;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Stopwatch;
 import jackson.InputPageModel;
 import org.reflections.Reflections;
@@ -21,8 +21,8 @@ public class ReflectionTest {
 		Set<Class<? extends InputStream>> allTypes    = reflections.getSubTypesOf(InputStream.class);
 		
 		Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(JsonTypeName.class);
-		ObjectMapper  mapper   = new ObjectMapper();
-		classSet.parallelStream().forEach(clazz -> mapper.registerSubtypes(clazz));
+//		ObjectMapper  mapper   = new ObjectMapper();
+//		classSet.parallelStream().forEach(clazz -> mapper.registerSubtypes(clazz));
 		System.out.println(stopwatch.toString());
 		for (Class type : allTypes) {
 			System.out.println(type.getName());

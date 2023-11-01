@@ -1,7 +1,7 @@
 package velocity;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -30,7 +30,7 @@ public class VmRender {
 		VelocityContext ctx = new VelocityContext();
 		// 域对象加入参数值
 		
-		ObjectMapper mapper = new ObjectMapper();
+//		ObjectMapper mapper = new ObjectMapper();
 		JSONObject   item1  = new JSONObject();
 		item1.put("MoneyField-JSFLNXEV", 13);
 		item1.put("TextField-JSFLNXEW", "采购大饼");
