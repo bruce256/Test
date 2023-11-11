@@ -41,8 +41,16 @@ end
 
 rule "book_discount_5"
     when
-        $order:Order(originalPrice >= 400 )
+        $order:Order(originalPrice >= 400 && originalPrice  < 600)
     then
         $order.setRealPrice($order.getOriginalPrice() * 0.8);
+        System.out.println("成功匹配到规则五：所购图书总价打8折");
+end
+
+rule "book_discount_6"
+    when
+        $order:Order(originalPrice >= 600 )
+    then
+        $order.setRealPrice($order.getOriginalPrice() * 0.7);
         System.out.println("成功匹配到规则五：所购图书总价打8折");
 end
