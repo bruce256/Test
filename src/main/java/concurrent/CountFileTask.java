@@ -1,4 +1,4 @@
-package chapter06;
+package concurrent;
 
 import org.apache.commons.io.IOUtils;
 
