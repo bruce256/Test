@@ -52,6 +52,7 @@ public class FreemarkerDemo {
 		Map<String, Object> dataModel = new HashMap<>();
 		dataModel.put("name", "\"John");
 		dataModel.put("age", 25);
+		dataModel.put("payAccount", "CASSA CONTANTIa");
 		
 		// 渲染模板
 		StringWriter stringWriter = new StringWriter();
