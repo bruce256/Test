@@ -29,13 +29,18 @@ public class DroolsTest {
         Order order1 = new Order();
         order1.setOriginalPrice(500D);
         kieSession.insert(order1);
+        
+        Order order2 = new Order();
+        order2.setOriginalPrice(800D);
+        kieSession.insert(order2);
         //激活规则引擎，如果规则匹配成功则执行规则
         kieSession.fireAllRules();
 
         //关闭会话
         kieSession.dispose();
 
-        System.out.println("优惠前原始价格：" + order.getOriginalPrice() +
-            "，优惠后价格：" + order.getRealPrice());
+        System.out.println("优惠前原始价格：" + order.getOriginalPrice() + "，优惠后价格：" + order.getRealPrice());
+        System.out.println("优惠前原始价格：" + order1.getOriginalPrice() + "，优惠后价格：" + order1.getRealPrice());
+        System.out.println("优惠前原始价格：" + order2.getOriginalPrice() + "，优惠后价格：" + order2.getRealPrice());
     }
 }

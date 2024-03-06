@@ -1,3 +1,4 @@
+/*
 package virtualmachine;
 
 import com.sun.tools.attach.AttachNotSupportedException;
@@ -5,10 +6,12 @@ import com.sun.tools.attach.VirtualMachine;
 
 import java.io.IOException;
 
+*/
 /**
  * @author LvSheng
  * @date 2021/10/30
- **/
+ **//*
+
 public class VirtualMachineTest {
     public static void main(String[] args) {
         try {
@@ -27,3 +30,4 @@ public class VirtualMachineTest {
         }
     }
 }
+*/
