@@ -26,6 +26,7 @@
         <jackson-version>2.9.3</jackson-version>
         <v-sentinel>1.8.2</v-sentinel>
         <v-rocketmq>4.9.2</v-rocketmq>
+        <v-hadoop>3.4.0</v-hadoop>
     </properties>
 
     <dependencies>
@@ -178,7 +179,13 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
-            <version>3.1.3</version>
+            <version>${v-hadoop}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-common</artifactId>
+            <version>${v-hadoop}</version>
         </dependency>
 
         <dependency>
@@ -190,7 +197,7 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <version>3.1.3</version>
+            <version>${v-hadoop}</version>
         </dependency>
 
         <dependency>
