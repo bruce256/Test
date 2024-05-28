@@ -13,5 +13,7 @@
 <#else>
     ${payAccount}
 </#if>
+number: ${num!'null'?c},
+value:${value!"null"}
 </body>
 </html>

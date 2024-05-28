@@ -17,6 +17,7 @@ public class FreemarkerDemo {
 		// 创建Configuration对象，并设置模板路径
 		Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
 		configuration.setClassForTemplateLoading(FreemarkerDemo.class, "/templates");
+//		configuration.setNumberFormat("0.##");
 		
 		// 获取Template对象
 		Template template = configuration.getTemplate("hello.ftl");
@@ -53,6 +54,7 @@ public class FreemarkerDemo {
 		dataModel.put("name", "\"John");
 		dataModel.put("age", 25);
 		dataModel.put("payAccount", "CASSA CONTANTIa");
+//		dataModel.put("num", 123456.123456789);
 		
 		// 渲染模板
 		StringWriter stringWriter = new StringWriter();
