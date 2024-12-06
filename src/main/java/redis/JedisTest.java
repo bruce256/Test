@@ -29,7 +29,7 @@ public class JedisTest {
         //设置Redis信息
         String         host       = "127.0.0.1";
         JedisShardInfo shardInfo1 = new JedisShardInfo(host, 6379, 500);
-        JedisShardInfo shardInfo2 = new JedisShardInfo(host, 6379, 500);
+        JedisShardInfo shardInfo2 = new JedisShardInfo(host, 6380, 500);
 //        shardInfo1.setPassword("test123");
 
         //初始化ShardedJedisPool
