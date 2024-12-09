@@ -15,6 +15,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,7 +37,46 @@ public class MinIOTest {
             String url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                                                                                     .bucket("lvsheng")
                                                                                     .method(Method.PUT)
-                                                                                    .object("osskey")
+                                                                                    .object(
+                                                                                        UUID.randomUUID().toString())
+                                                                                    .expiry(10, TimeUnit.MINUTES)
+                                                                                    .build());
+            System.out.println(url);
+        } catch (ErrorResponseException e) {
+            throw new RuntimeException(e);
+        } catch (InsufficientDataException e) {
+            throw new RuntimeException(e);
+        } catch (InternalException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidResponseException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (XmlParserException e) {
+            throw new RuntimeException(e);
+        } catch (ServerException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Test
+    public void presignedUrl4Download() {
+        MinioClient minioClient = MinioClient.builder()
+                                             .endpoint("http://127.0.0.1:9000")
+                                             .credentials("avrfdmwPyU7rr2LY4m7z",
+                                                 "0fhIuMKsPcTEDITfGHxMscFBYvy1WfCovSYl5TuO")
+                                             .build();
+
+        try {
+            String url = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                                                                                    .bucket("lvsheng")
+                                                                                    .method(Method.GET)
+                                                                                    .object("nginx.tag")
                                                                                     .expiry(10, TimeUnit.MINUTES)
                                                                                     .build());
             System.out.println(url);
