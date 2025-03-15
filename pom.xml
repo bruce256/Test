@@ -273,5 +273,6 @@
             <artifactId>minio</artifactId>
             <version>8.5.14</version>
         </dependency>
+
     </dependencies>
 </project>
