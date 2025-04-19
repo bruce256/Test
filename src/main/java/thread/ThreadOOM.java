@@ -8,7 +8,7 @@ public class ThreadOOM {
 
     public static void main(String[] args) {
         int i = 1;
-        while (i < 3000) {
+        while (true) {
             Thread thread = new TestThread();
             thread.start();
             System.out.println("thread : " + i);

@@ -24,7 +24,7 @@
     <properties>
         <v.poi>3.17</v.poi>
         <jackson-version>2.9.3</jackson-version>
-        <v-sentinel>1.8.2</v-sentinel>
+        <v-sentinel>1.8.8</v-sentinel>
         <v-rocketmq>4.9.2</v-rocketmq>
         <v-hadoop>3.4.0</v-hadoop>
     </properties>
@@ -273,6 +273,13 @@
             <artifactId>minio</artifactId>
             <version>8.5.14</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.17</version>
+        </dependency>
+
 
     </dependencies>
 </project>

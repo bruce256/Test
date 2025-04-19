@@ -12,7 +12,8 @@ import java.util.concurrent.TimeoutException;
 public class FutureTest {
 	public static void main(String[] args) {  
         Callable<Integer> callable = new Callable<Integer>() {  
-            public Integer call() throws Exception {  
+            public Integer call() throws Exception {
+                Thread.sleep(1000000);
                 return new Random().nextInt(100);  
             }  
         };  

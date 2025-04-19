@@ -1,5 +1,7 @@
 package concurrent;
 
+import lombok.SneakyThrows;
+
 /**
  * Created by cdlvsheng on 2016/3/28.
  */
@@ -18,6 +20,8 @@ public class WaitNotify {
 		}
 
 		thread2.start();
+		Thread2 thread3 = new Thread2();
+		thread3.start();
 	}
 
 	static class Thread1 extends Thread{
@@ -34,9 +38,11 @@ public class WaitNotify {
 	}
 
 	static class Thread2 extends Thread{
-		@Override
+		@SneakyThrows
+        @Override
 		public void run() {
 			synchronized (object) {
+				Thread.sleep(100000);
 				object.notify();
 				System.out.println("线程"+ this.getClass().getName()+"调用了object.notify()");
 			}
