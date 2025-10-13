@@ -13,7 +13,7 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class ParallelStreamBlockDemo {
     public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);
 
         System.out.println("CommonPool 并行度: " +
             ForkJoinPool.commonPool().getParallelism());
@@ -28,7 +28,7 @@ public class ParallelStreamBlockDemo {
                 // 这个 CompletableFuture 可能也在 commonPool 执行
                 CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
                     try {
-                        Thread.sleep(2000); // 模拟网络 I/O
+                        Thread.sleep(20000); // 模拟网络 I/O
                         return "result-" + number;
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
